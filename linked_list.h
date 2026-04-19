@@ -1,12 +1,13 @@
 #ifndef LINKED_LIST_H
 #define LINKED_LIST_H
 
+//#include <cmath>
 #include <stddef.h>
 #include <stdbool.h>
 #include <stdint.h>
 
 typedef struct Node {
-    void *data;
+    void        *data;
     struct Node *next;
 } Node;
 

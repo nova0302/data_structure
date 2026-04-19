@@ -3,8 +3,10 @@
 #include <string.h>
 #include "linked_list.h"
 
+// stack && heap
+
 Node* createNode(void *data, size_t dataSize) {
-    Node* newNode = (Node*)malloc(sizeof(Node));
+    Node* newNode = malloc(sizeof(Node));
     if (!newNode) return NULL;
 
     newNode->data = malloc(dataSize);
