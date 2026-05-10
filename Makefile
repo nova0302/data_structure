@@ -1,6 +1,6 @@
 #CC = g++
 CC = gcc
-OBJS = hello_world.o circ_buf.o linked_list.c
+OBJS = main.o circ_buf.o linked_list.c
 
 all: $(OBJS)
 	$(CC) -o hello_world $(OBJS)

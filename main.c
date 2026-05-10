@@ -1,47 +1,4 @@
 // #include <cstring>
-#ifdef TEST
-#include "circ_buf.h"
-#include <stdint.h>
-#include <stdio.h>
-
-#define BUF_SIZE 256
-uint8_t storage[BUF_SIZE];
-
-typedef int (*arith_fun)(int, int);
-
-int add(int a, int b) { return a + b; }
-
-int sub(int a, int b) { return a - b; }
-
-arith_fun arith_f[] = {add, sub};
-
-typedef struct pair {
-  uint32_t addr;
-  uint32_t data;
-} pair;
-
-int main() {
-
-  circbuf_t cb;
-  circbuf_init(&cb, storage, BUF_SIZE);
-  uint8_t tx[] = {1, 2, 3, 4, 5};
-  circbuf_put(&cb, tx, sizeof(tx));
-  uint8_t rx[10];
-  uint32_t n = circbuf_get(&cb, rx, sizeof(rx));
-
-  for (int i = 0; i < 4; i++) {
-    // printf("%d : Hello World\n", i);
-    // printf("%d + %d = %d", i,i, add(i,i));
-    printf("%d + %d = %u\n", i, i, arith_f[i % 2](i, i));
-  }
-  uint32_t nAge = 32;
-  uint32_t nHeight = 15;
-  sub(nAge, nHeight);
-  add(nAge, nHeight);
-
-  return 0;
-}
-#else
 
 #include "linked_list.h"
 #include <stdio.h>
@@ -84,9 +41,29 @@ typedef struct {
   int *pnValue;
 } MyValue;
 
+void callByRef(int *pnA, int *pnB) {
+  int temp = *pnA;
+  *pnA = *pnB;
+  *pnB = temp;
+}
+
+void callByValue(int nA, int nB) {
+  int temp = nA;
+  nA = nB;
+  nB = temp;
+}
+
 int main() {
+
   int nA = 3;
   int nB = 6;
+  printf("nA: %d, nB: %d\n", nA, nB);
+  callByValue(nA, nB);
+  printf("callByVal-> nA: %d, nB: %d\n", nA, nB);
+
+  callByRef(&nA, &nB);
+  printf("callByRef-> nA: %d, nB: %d\n", nA, nB);
+
   // MyValue myValueArr[2] = {{&nA}, {&nB}};
   MyValue myValueArr[2] = {&nA, &nB};
   MyValue *pMyValue = &myValueArr[1];
@@ -168,10 +145,10 @@ int main() {
   Tripple t1 = {0xb1, 0xb2, 1};
   Tripple t2 = {0xb3, 0xa4, 3};
 
-  Node *pHeader = createNode(&t1, sizeof(Tripple));
+  Node *pHead = createNode(&t1, sizeof(Tripple));
   // appendNode(&List, &t1, sizeof(Tripple));
-  appendNode(&pHeader, &t2, sizeof(Tripple));
-  dumpNode(pHeader, printTripple);
+  appendNode(&pHead, &t2, sizeof(Tripple));
+  dumpNode(pHead, printTripple);
 
   // Pair p3;
   // memcpy(&p3, &p2, sizeof(Pair));
@@ -203,4 +180,3 @@ int main() {
   freeList(list);
   return 0;
 }
-#endif
