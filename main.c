@@ -70,84 +70,17 @@ int main() {
   printf("%d\n", *pMyValue->pnValue);
   *pMyValue->pnValue = 8;
   printf("%d\n", *pMyValue->pnValue);
-  return 0;
+  // return 0;
 
-  // int a = 10;
-  // int *pN = &a;
-  // int **ppN = &pN;
-  // printf("*ppN: %p\n", *ppN);
-  // printf("**ppN: %d\n", **ppN);
-
-#ifdef TEST
-  printf("sizeof(Node*) : %lu\n", sizeof(Node));
-  {
-
-    char cArr[16] = "He";
-    char *pC = cArr;
-    printf("strlen(cArr): %lu\n", strlen(cArr));
-    printf("%c\n", *pC);
-    printf("&pC: %p\n", &pC);
-    printf("pC: %p\n", pC); //"H"
-    pC++;
-    printf("%c\n", *pC);
-    printf("&pC: %p\n", &pC);
-    printf("pC: %p\n", pC); //"e"
-
-    printf("sizeof(uint32_t): %ld\n", sizeof(uint32_t));
-  }
-  {
-
-    uint32_t nArr[] = {1, 2, 3};
-    uint32_t *pN = nArr;
-
-    printf("%d\n", *pN);
-    printf("&pN: %p\n", &pN);
-    printf("pN: %p\n", pN); //"H"
-    pN++;
-    printf("%d\n", *pN);
-    printf("&pN: %p\n", &pN);
-    printf("pN: %p\n", pN); //"H"
-    pN++;
-    printf("%d\n", *pN);
-    printf("&pN: %p\n", &pN);
-    printf("pN: %p\n", pN); //"H"
-  }
-  {
-
-    Pair pairArr[2] = {{1, 2}, {3, 4}};
-    Pair *pPair = pairArr;
-
-    printf("%d\n", pPair->addr);
-    printf("%d\n", pPair->data);
-    printf("&pPair: %p\n", &pPair);
-    printf("pPair: %p\n", pPair);
-    pPair++;
-    printf("%d\n", pPair->addr);
-    printf("%d\n", pPair->data);
-    printf("&pPair: %p\n", &pPair);
-    printf("pPair: %p\n", pPair);
-    // pPair++;
-    // printf("%d\n", pPair->addr);
-    // printf("&pPair: %p\n", &pPair);
-    // printf("pPair: %p\n", pPair); //"H"
-
-    // printf("%ls\n", pN);
-    // printf("%p\n", &pN);
-    // pN++;
-    // printf("%ls\n", pN);
-    // printf("%p\n", &pN);
-
-    // for(int i=0; i<strlen(cArr); i++)
-    //   printf("%c", *pC++);
-  }
-#endif
-
-  Tripple t1 = {0xb1, 0xb2, 1};
-  Tripple t2 = {0xb3, 0xa4, 3};
+  Tripple t1 = {0xb1, 0xb2, 0xb3};
+  Tripple t2 = {0xc1, 0xc2, 0xc3};
+  Tripple t3 = {0xd1, 0xd2, 0xd3};
+  Tripple t4 = {0xe1, 0xe2, 0xe3};
 
   Node *pHead = createNode(&t1, sizeof(Tripple));
-  // appendNode(&List, &t1, sizeof(Tripple));
   appendNode(&pHead, &t2, sizeof(Tripple));
+  appendNode(&pHead, &t3, sizeof(Tripple));
+  appendNode(&pHead, &t4, sizeof(Tripple));
   dumpNode(pHead, printTripple);
 
   // Pair p3;
