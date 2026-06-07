@@ -164,6 +164,7 @@ int main() {
     //   printf("%c", *pC++);
   }
 #endif
+  printf("sizeof(Node): %d", sizeof(Node));
 
   Tripple t1 = {0xb1, 0xb2, 1};
   Tripple t2 = {0xb3, 0xa4, 3};

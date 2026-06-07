@@ -1,0 +1,44 @@
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct Pair {
+  uint32_t addr;
+  uint32_t data;
+} Pair;
+
+typedef struct Node {
+  void *data;
+  struct Node *next;
+
+} Node;
+
+Node *createNode(void *data, uint32_t datasize) {
+  Node *newNode = malloc(sizeof(Node));
+  newNode->data = malloc(datasize);
+  memcpy(newNode->data, data, datasize);
+  newNode->next = NULL;
+  return newNode;
+}
+
+void appendNode(Node **head, void *data, uint32_t datasize) {
+  Node *newNode = createNode(data, datasize);
+  if (*head == NULL) {
+    *head = newNode;
+    return;
+  }
+  Node *temp = *head;
+  while (temp->next != NULL) {
+    temp = temp->next;
+  }
+  temp->next = newNode;
+}
+
+void printPair(Pair pair) {
+  printf("addr:%d data:%d \n", pair.addr, pair.data);
+}
+
+int main() {
+  Pair p1 = {0xa0, 0xb0};
+  printPair(p1);
+}

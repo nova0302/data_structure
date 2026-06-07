@@ -15,18 +15,12 @@ typedef struct Tripple {
   uint32_t data1;
 } Tripple;
 
-// Print logic for the pair struct
-void printPair(void *p) {
-  Pair *pPair = (Pair *)p;
-  // Pair *pp = p;
-  printf("{addr: 0x%X, data: 0x%x}", pPair->addr, pPair->data);
-}
+void callByValue(int nA, int nB);
+void callByRef(int *pnA, int *pnB);
 
-void printTripple(void *p) {
-  Tripple *pTripple = (Tripple *)p;
-  printf("{addr: 0x%X, data: 0x%x, data1: 0x%x}\n", pTripple->addr,
-         pTripple->data, pTripple->data1);
-}
+void printPair(void *p);    // declaration
+void printTripple(void *p); // declaration
+
 // Comparison logic (find/remove by address)
 int comparePairAddr(void *a, void *b) {
   return ((Pair *)a)->addr - ((Pair *)b)->addr;
@@ -41,43 +35,40 @@ typedef struct {
   int *pnValue;
 } MyValue;
 
-void callByRef(int *pnA, int *pnB) {
-  int temp = *pnA;
-  *pnA = *pnB;
-  *pnB = temp;
-}
-
-void callByValue(int nA, int nB) {
-  int temp = nA;
-  nA = nB;
-  nB = temp;
-}
-
 int main() {
+  /*
+  {
+    int nA = 3;
+    int nB = 6;
+    printf("nA: %d, nB: %d\n", nA, nB);
+    callByValue(nA, nB);
+    printf("callByVal-> nA: %d, nB: %d\n", nA, nB);
 
-  int nA = 3;
-  int nB = 6;
-  printf("nA: %d, nB: %d\n", nA, nB);
-  callByValue(nA, nB);
-  printf("callByVal-> nA: %d, nB: %d\n", nA, nB);
+    callByRef(&nA, &nB);
+    printf("callByRef-> nA: %d, nB: %d\n", nA, nB);
 
-  callByRef(&nA, &nB);
-  printf("callByRef-> nA: %d, nB: %d\n", nA, nB);
+    // MyValue myValueArr[2] = {{&nA}, {&nB}};
+    MyValue myValueArr[2] = {&nA, &nB};
+    MyValue *pMyValue = &myValueArr[1];
+    printf("%d\n", *pMyValue->pnValue);
+    *pMyValue->pnValue = 8;
+    printf("%d\n", *pMyValue->pnValue);
+    // return 0;
+  }
+  */
 
-  // MyValue myValueArr[2] = {{&nA}, {&nB}};
-  MyValue myValueArr[2] = {&nA, &nB};
-  MyValue *pMyValue = &myValueArr[1];
-  printf("%d\n", *pMyValue->pnValue);
-  *pMyValue->pnValue = 8;
-  printf("%d\n", *pMyValue->pnValue);
-  // return 0;
+  printf("sizeof(Node): %d", sizeof(Node));
 
   Tripple t1 = {0xb1, 0xb2, 0xb3};
   Tripple t2 = {0xc1, 0xc2, 0xc3};
   Tripple t3 = {0xd1, 0xd2, 0xd3};
   Tripple t4 = {0xe1, 0xe2, 0xe3};
 
+  Tripple t5 = {.addr = 0xe1, .data = 0xe2, .data1 = 0xe3};
+
+  // Node *pHead = NULL;
   Node *pHead = createNode(&t1, sizeof(Tripple));
+
   appendNode(&pHead, &t2, sizeof(Tripple));
   appendNode(&pHead, &t3, sizeof(Tripple));
   appendNode(&pHead, &t4, sizeof(Tripple));
@@ -90,10 +81,15 @@ int main() {
   // 1. Create and Append
   Pair p1 = {0xb1, 0xb2};
   Pair p2 = {0xb3, 0xa4};
+  Pair p3 = {0xb3, 0xa4};
+  Pair p4 = {0xb3, 0xa4};
 
   Node *list = createNode(&p1, sizeof(Pair));
   // appendNode(&list, &p1, sizeof(Pair));
   appendNode(&list, &p2, sizeof(Pair));
+  appendNode(&list, &p3, sizeof(Pair));
+  appendNode(&list, &p4, sizeof(Pair));
+  findNode(list, &p2, comparePairAddr);
 
   // 2. Dump
   printf("Initial List: ");
@@ -112,4 +108,30 @@ int main() {
 
   freeList(list);
   return 0;
+}
+
+// Print logic for the pair struct
+void printPair(void *p) { // definition
+  Pair *pPair = (Pair *)p;
+  // Pair *pp = p;
+  printf("{addr: 0x%X, data: 0x%x}", pPair->addr, pPair->data);
+}
+
+void printTripple(void *p) {
+  Tripple *pTripple = (Tripple *)p;
+  printf("{addr: 0x%X, data: 0x%x, data1: 0x%x}\n", pTripple->addr,
+         pTripple->data, pTripple->data1);
+}
+
+// definition
+void callByRef(int *pnA, int *pnB) {
+  int temp = *pnA;
+  *pnA = *pnB;
+  *pnB = temp;
+}
+
+void callByValue(int nA, int nB) {
+  int temp = nA;
+  nA = nB;
+  nB = temp;
 }
